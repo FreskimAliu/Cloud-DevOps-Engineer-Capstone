@@ -1,0 +1,39 @@
+version: 2.1
+jobs:
+    build-application:
+        docker:
+          - image: circleci/node:13.8.0
+        steps:
+          - checkout
+          - restore_cache:
+              keys: [build-app]
+          - run: 
+              name: Install packages
+              command: |
+                npm install
+          - save_cache:
+              paths: [node_modules]
+              key: build-app
+          - run:
+              name: Build Front End
+              command: |
+                npm run build
+    
+    test-application:
+        docker:
+           - image: circleci/node:13.8.0
+        steps:
+           - checkout
+           - restore_cache:
+              keys: [test-application]
+           - run:
+              name: Install packages
+              command: |
+                npm install
+           - save_cache:
+              paths: [node_modules]
+              key: test-application
+           - run:
+              name: Application Test
+              command: |
+                 npm run test
