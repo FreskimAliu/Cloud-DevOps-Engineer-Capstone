@@ -15,7 +15,7 @@ jobs:
               paths: [node_modules]
               key: build-app
           - run:
-              name: Build Front End
+              name: Build Application
               command: |
                 npm run build
     
