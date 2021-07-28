@@ -1,0 +1,30 @@
+{
+  "name": "udacitycapstone",
+  "version": "1.0.0",
+  "description": "This is my capstone project for Udacity Cloud Devops",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "supertest": "^6.1.4"
+  },
+  "devDependencies": {
+    "eslint": "^7.31.0",
+    "mocha": "^9.0.3"
+  },
+  "scripts": {
+    "test": "mocha ./test/* --exit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FreskimAliu/Udacity-Cloud-DevOps-Engineer-Nanodegree-Capstone-.git"
+  },
+  "author": "Freskim Aliu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FreskimAliu/Udacity-Cloud-DevOps-Engineer-Nanodegree-Capstone-/issues"
+  },
+  "homepage": "https://github.com/FreskimAliu/Udacity-Cloud-DevOps-Engineer-Nanodegree-Capstone-#readme"
+}
