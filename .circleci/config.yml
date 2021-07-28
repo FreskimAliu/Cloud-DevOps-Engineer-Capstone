@@ -37,3 +37,10 @@ jobs:
               name: Application Test
               command: |
                  npm run test
+
+workflows:
+  default:
+    jobs:
+      - build-application
+      - test-application:
+          requires: [build-application]
