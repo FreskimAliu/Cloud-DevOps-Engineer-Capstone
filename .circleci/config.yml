@@ -2,11 +2,15 @@ version: 2.1
 jobs:
     lint-application:
         docker:
-          - image: circleci/node:13.8.0
+          - image: alpine:latest
         steps:
           - checkout
           - restore_cache:
               keys: [lint-app]
+          - run: 
+              name: Install dependecies
+              command: |
+                apk add --update node npm wget 
           - run: 
               name: Install packages
               command: |
