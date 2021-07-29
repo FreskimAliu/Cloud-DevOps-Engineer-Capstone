@@ -16,7 +16,7 @@
   },
   "scripts": {
     "test": "mocha ./test/* --exit",
-    "lint": "./node_modules/.bin/eslint index.js"
+    "lint": "./node_modules/.bin/eslint server.js"
   },
   "repository": {
     "type": "git",
