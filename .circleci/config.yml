@@ -11,11 +11,6 @@ jobs:
               name: Install packages
               command: |
                 npm install
-                
-                #Install Hadolint
-                wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.18.0/hadolint-Linux-x86_64 
-                ls
-                chmod +x /bin/hadolint
           - save_cache:
               paths: [node_modules]
               key: lint-app
@@ -26,7 +21,7 @@ jobs:
           - run:
               name: Lint Docker File
               command: |
-                hadolint Dockerfile
+                docker run --rm -i hadolint/hadolint < Dockerfile
     
     test-application:
         docker:
