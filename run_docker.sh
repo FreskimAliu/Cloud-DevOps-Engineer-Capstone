@@ -10,4 +10,4 @@ docker image ls
 
 # Run flask app
 echo "Run flask app"
-docker run -p 8000:80 udacity-capstone-project
+docker run -p 8080:80 udacity-capstone-project
