@@ -54,9 +54,9 @@ pipeline {
                   exit 1
                 fi
                 
-                docker ps
                 docker stop $(docker ps -q)
                 docker rm $(docker ps -q)
+                docker ps 
                 
               '''
             }
