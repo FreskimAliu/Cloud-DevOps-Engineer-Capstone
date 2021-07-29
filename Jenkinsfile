@@ -1,5 +1,10 @@
 pipeline {
   agent any
+
+  environment {
+    DOCKER_IMAGE = 'udacity-capstone-project'
+  }  
+  
   stages {
     stage('Lint Application') {
             steps {
@@ -28,12 +33,33 @@ pipeline {
     stage('Build Docker Image') {
             steps {
               sh '''
-                echo "Building docker image"
-                ./run_docker.sh
+                echo "Build docker image"
+                docker build --tag=${DOCKER_IMAGE} .
               '''
             }
     }
     
-
+    stage('Test Docker Container') {
+            steps {
+              sh '''
+                echo "Running docker container"
+                docker image ls
+                docker run -p 8080:80 ${DOCKER_IMAGE}
+                
+                echo "Testing docker container"
+                if curl -s "http://localhost:8080" | grep "Hello World"
+                then
+                  echo "Container is working correctly"
+                else
+                  exit 1
+                fi
+                
+                docker ps
+                docker stop $(docker ps -q)
+                docker rm $(docker ps -q)
+                
+              '''
+            }
+    }
   }
 }
