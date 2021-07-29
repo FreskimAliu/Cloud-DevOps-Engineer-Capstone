@@ -46,7 +46,7 @@ jobs:
               command: |
                  npm run test
                  
-  workflows:
+workflows:
   default:
     jobs:
       - lint-application
