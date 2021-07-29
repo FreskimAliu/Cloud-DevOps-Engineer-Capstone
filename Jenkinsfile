@@ -15,6 +15,25 @@ pipeline {
               '''
             }
     }
+    
+    stage('Test Application') {
+            steps {
+              sh '''
+                echo "Testing application"
+                npm run test
+              '''
+            }
+    }
+    
+    stage('Build Docker Image') {
+            steps {
+              sh '''
+                echo "Building docker image"
+                ./run_docker.sh
+              '''
+            }
+    }
+    
 
   }
 }
