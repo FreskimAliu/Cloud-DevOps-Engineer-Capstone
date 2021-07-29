@@ -15,11 +15,7 @@ jobs:
               paths: [node_modules]
               key: lint-app
           - run:
-<<<<<<< HEAD
               name: Lint Application
-=======
-              name: Build Application
->>>>>>> b77f4e2744dd2f4e0cf3b683c436668f5c5396f2
               command: |
                 npm run lint
     
