@@ -1,23 +1,23 @@
 version: 2.1
 jobs:
-    build-application:
+    lint-application:
         docker:
           - image: circleci/node:13.8.0
         steps:
           - checkout
           - restore_cache:
-              keys: [build-app]
+              keys: [lint-app]
           - run: 
               name: Install packages
               command: |
                 npm install
           - save_cache:
               paths: [node_modules]
-              key: build-app
+              key: lint-app
           - run:
-              name: Build Front End
+              name: Lint Application
               command: |
-                npm run build
+                npm run lint
     
     test-application:
         docker:
@@ -37,3 +37,10 @@ jobs:
               name: Application Test
               command: |
                  npm run test
+                 
+  workflows:
+  default:
+    jobs:
+      - lint-application
+      - test-application:
+          requires: [lint-application]
