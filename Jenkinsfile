@@ -47,11 +47,11 @@ pipeline {
                 docker run -p 80:8000 -d ${DOCKER_IMAGE}
                 
                 echo "Testing docker container"
-                if curl -s "http://localhost" | grep "Hello World"
+                if curl -s "http://localhost:80" | grep "Hello World"
                 then
-                  echo "Container is working correctly"
+                        echo "Container is working correctly."
                 else
-                  exit 1
+                        exit 1;
                 fi
                 
                 docker stop $(docker ps -q)
