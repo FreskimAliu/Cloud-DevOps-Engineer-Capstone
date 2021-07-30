@@ -44,10 +44,10 @@ pipeline {
               sh '''
                 echo "Running docker container"
                 docker image ls
-                docker run -p 8000:80 -d ${DOCKER_IMAGE}
+                docker run -p 80:8000 -d ${DOCKER_IMAGE}
                 
                 echo "Testing docker container"
-                if curl -s "http://localhost:8000" | grep "Hello World"
+                if curl -s "http://localhost" | grep "Hello World"
                 then
                   echo "Container is working correctly"
                 else
