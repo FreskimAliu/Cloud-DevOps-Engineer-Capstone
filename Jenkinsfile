@@ -8,57 +8,36 @@ pipeline {
   stages {
     stage('Lint Application') {
             steps {
-              sh '''
-                echo "Installing node dependecies"
-                npm install
-                
-                echo "Linting JavaScript code"
-                npm run lint
-                
-                echo "Linting Docker file"
-                hadolint Dockerfile
-              '''
+              sh 'npm install'
+              sh 'npm run lint'
+              sh 'hadolint Dockerfile'
             }
     }
-    
     stage('Test Application') {
             steps {
-              sh '''
-                echo "Testing application"
-                npm run test
-              '''
+              sh 'npm run test'
             }
     }
-    
     stage('Build Docker Image') {
             steps {
-              sh '''
-                echo "Build docker image"
-                docker build --tag=${DOCKER_IMAGE} .
-              '''
+              sh 'docker build --tag=${DOCKER_IMAGE} .'
             }
     }
-    
     stage('Test Docker Container') {
             steps {
-              sh '''
-                echo "Running docker container"
-                docker image ls
-                docker run -p 80:8000 -d ${DOCKER_IMAGE}
+              sh 'docker run -p 80:8000 -d ${DOCKER_IMAGE}'
                 
-                echo "Testing docker container"
-                if curl -s "http://localhost:80" | grep "Hello World"
+              sh '''  
+              if curl -s "http://localhost:80" | grep "Hello World"
                 then
                         echo "Container is working correctly."
                 else
                         exit 1;
                 fi
-                
-                docker stop $(docker ps -q)
-                docker rm $(docker ps -q)
-                docker ps 
-                
-              '''
+              '''  
+              sh 'docker stop $(docker ps -q)'
+              sh 'docker rm $(docker ps -q)'
+              sh 'docker ps' 
             }
     }
   }
