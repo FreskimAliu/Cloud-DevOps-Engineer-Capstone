@@ -27,7 +27,7 @@ pipeline {
         sh 'docker logs $(docker ps -q)'
         sh 'curl http://localhost:80'
         sh 'docker stop $(docker ps -q)'
-        sh 'docker rm $(docker ps -q)'
+        sh 'docker rm $(docker ps -q -a)'
         sh 'docker ps'
       }
     }
