@@ -25,7 +25,7 @@ pipeline {
       steps {
         sh 'docker run -p 80:8000 -d ${DOCKER_IMAGE}'
         sh 'docker logs $(docker ps -q)'
-        sh 'curl http://localhost:80'
+        sh 'curl "http://localhost:80"'
         sh 'docker stop $(docker ps -q)'
         sh 'docker rm $(docker ps -q -a)'
         sh 'docker ps'
