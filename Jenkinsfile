@@ -17,7 +17,7 @@ pipeline {
 
     stage('Build Docker Image') {
       steps {
-        sh 'iptables -I INPUT -m conntrack --ctstate INVALID -j DROP'
+        sh 'sudo iptables -I INPUT -m conntrack --ctstate INVALID -j DROP'
         sh 'docker build --tag=${DOCKER_IMAGE} .'
       }
     }
