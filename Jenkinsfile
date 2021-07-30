@@ -24,8 +24,7 @@ pipeline {
     stage('Test Docker Container') {
       steps {
         sh 'docker run -p 80:8000 -d ${DOCKER_IMAGE}'
-        sh '''  
-             curl -s "http://localhost:80"'''
+        sh 'curl http://localhost:80'
         sh 'docker stop $(docker ps -q)'
         sh 'docker rm $(docker ps -q)'
         sh 'docker ps'
