@@ -28,7 +28,7 @@ pipeline {
               sh 'docker run -p 80:8000 -d ${DOCKER_IMAGE}'
                 
               sh '''  
-              if curl -s "http://localhost:80" | grep "Hello World"
+              if [ curl -s "http://localhost:80" | grep "Hello World" ]
                 then
                   echo "Container is working correctly."
                 else
