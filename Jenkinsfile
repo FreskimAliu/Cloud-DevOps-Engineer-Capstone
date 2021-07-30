@@ -30,9 +30,9 @@ pipeline {
               sh '''  
               if curl -s "http://localhost:80" | grep "Hello World"
                 then
-                        echo "Container is working correctly."
+                  echo "Container is working correctly."
                 else
-                        exit 1;
+                  exit 1;
                 fi
               '''  
               sh 'docker stop $(docker ps -q)'
