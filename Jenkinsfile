@@ -50,7 +50,7 @@ pipeline {
     
     stage('Deploy to EKS') {
       steps {
-        withAWS(credentials: 'aws-credentials', region: "${AWS_DEFAULT_REGION}") {
+        withAWS(credentials: 'aws_credentials', region: "${AWS_DEFAULT_REGION}") {
           sh 'aws eks update-kubeconfig --name test-cluster'
           sh 'kubectl config use-context arn:aws:eks:us-west-2:133860621760:cluster/test-cluster'
         }
