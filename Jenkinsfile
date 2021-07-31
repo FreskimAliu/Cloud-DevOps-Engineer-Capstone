@@ -66,8 +66,8 @@ pipeline {
       steps {
         withAWS(credentials: 'aws_credentials', region: "${AWS_DEFAULT_REGION}") {
           sh '''
-          CLUSTER_ENDPOINT=$(kubectl get svc udacity-capstone-project -o json | jq .status.loadBalancer.ingress[].hostname)
-          curl $CLUSTER_ENDPOINT
+          CLUSTER_ENDPOINT=$(kubectl get svc udacity-capstone-project -o json | jq -r .status.loadBalancer.ingress[].hostname);
+          curl "http://${CLUSTER_ENDPOINT}:80"'
           '''
         }
       }
