@@ -4,7 +4,7 @@ metadata:
   name: udacity-capstone-project
 
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: udacity-capstone-project
