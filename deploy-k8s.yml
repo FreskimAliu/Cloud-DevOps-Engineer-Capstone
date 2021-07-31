@@ -7,12 +7,12 @@ spec:
   selector:
     app: udacity-capstone-project
   ports:
-    - port: 8000
+    - port: 80
       targetPort: 8080
   type: LoadBalancer
 
----
 
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
