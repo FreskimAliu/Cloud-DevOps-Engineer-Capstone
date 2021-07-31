@@ -7,7 +7,7 @@ spec:
   selector:
     app: udacity-capstone-project
   ports:
-    - port: 80
+    - port: 8000
       targetPort: 8080
   type: LoadBalancer
 
