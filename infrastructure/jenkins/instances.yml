@@ -1,0 +1,131 @@
+Description: >
+    Jenkins Instances CloudFormation Deployment.
+    This template deploys two Security Groups and two EC2 instances 
+    (One for Jenkins Master and one for Jenkins Agent)
+
+Parameters:
+  EnvironmentName:
+    Description: An environment name that will be prefixed to resource names
+    Type: String
+  ImageId:
+    Description: ImageId for Jenkins instances
+    Type: String
+  MyIP:
+    Description: My IP address for SSH access in Jenkins instances.
+    Type: String
+Resources:
+  RoleforECRAccess:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess
+  
+  ServerInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - !Ref RoleforECRAccess
+      Path: /
+  
+  JenkinsMasterSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow access on ports 22 and 8080
+      VpcId:
+        Fn::ImportValue:
+          !Sub "${EnvironmentName}-VPC"
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 8080
+        ToPort: 8080
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: !Ref MyIP
+      SecurityGroupEgress:
+      - IpProtocol: tcp
+        FromPort: 0
+        ToPort: 65535
+        CidrIp: 0.0.0.0/0
+        
+  JenkinsAgentSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow SSH access from MyIP and JenkinsMaster
+      VpcId:
+        Fn::ImportValue:
+          !Sub "${EnvironmentName}-VPC"
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: !Ref MyIP
+      SecurityGroupEgress:
+      - IpProtocol: tcp
+        FromPort: 0
+        ToPort: 65535
+        CidrIp: 0.0.0.0/0
+        
+  SGIngress:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: tcp
+      FromPort: 22
+      ToPort: 22
+      GroupId: !Ref JenkinsAgentSecurityGroup
+      SourceSecurityGroupId: !GetAtt JenkinsMasterSecurityGroup.GroupId
+
+  JenkinsMasterInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref ImageId
+      InstanceType: t3.medium
+      KeyName: jenkinsmaster
+      NetworkInterfaces: 
+      - AssociatePublicIpAddress: "true"
+        DeviceIndex: "0"
+        GroupSet: 
+          - Ref: "JenkinsMasterSecurityGroup"
+        SubnetId: 
+          Fn::ImportValue:
+            !Sub "${EnvironmentName}-PublicSubnet1"
+      BlockDeviceMappings:
+        - DeviceName: "/dev/sdk"
+          Ebs:
+            VolumeSize: '20'
+      UserData:
+          Fn::Base64: !Sub |
+            #! /bin/bash
+            
+            # Install Java
+            sudo apt update
+            sudo apt install default-jre
+            sudo apt install default-jdk
+            
+            # Install Jenkins 
+            wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+            sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+            sudo apt update
+            sudo apt install jenkins
+            
+            # Start Jenkins
+            sudo systemctl start jenkins
+            
+            # Opening the firewall
+            sudo ufw allow OpenSSH
+            sudo ufw enable
+            sudo ufw allow 8080
+
+      Tags:
+        -
+         Key: Name
+         Value: Jenkins Master

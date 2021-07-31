@@ -1,0 +1,14 @@
+[
+    {
+	    "ParameterKey": "EnvironmentName",
+	    "ParameterValue": "UdacityCapstoneProject"
+    },
+    {
+        "ParameterKey": "ImageId",
+        "ParameterValue": "ami-03d5c68bab01f3496"
+    },
+    {
+        "ParameterKey": "MyIP",
+        "ParameterValue": "87.238.210.222/32"
+    }
+]
