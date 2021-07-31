@@ -53,6 +53,12 @@ pipeline {
         withAWS(credentials: 'aws_credentials', region: "${AWS_DEFAULT_REGION}") {
           sh 'aws eks update-kubeconfig --name test-cluster'
           sh 'kubectl config use-context arn:aws:eks:us-west-2:133860621760:cluster/test-cluster'
+          sh 'kubectl apply -f deploy-k8s.yml'
+          sh 'kubectl rollout restart deployments/udacity-capstone-project'
+          sh 'kubectl get nodes'
+          sh 'kubectl get deployments'
+          sh 'kubectl get pod -o wide'
+          sh 'kubectl get service/udacity-capstone-project'
         }
       }
     }
