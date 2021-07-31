@@ -40,12 +40,23 @@ pipeline {
       }
     }
     
-    stage('Push image to ECR') {
+    stage('Push Image to ECR') {
       steps {
         sh 'aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com'
         sh 'docker tag ${DOCKER_IMAGE}:${TAG} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${DOCKER_IMAGE}:${TAG}'
         sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${DOCKER_IMAGE}:${TAG}'
       }
     }
+    
+    stage('Deploy to EKS') {
+      steps {
+        withAWS(credentials: 'aws-credentials', region: "${AWS_REGION}") {
+          sh 'aws eks update-kubeconfig --name test-cluster'
+          sh 'kubectl config use-context arn:aws:eks:us-west-2:133860621760:cluster/test-cluster'
+        }
+      }
+    }
+    
+    
   }
 }
