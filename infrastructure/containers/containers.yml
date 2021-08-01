@@ -1,0 +1,131 @@
+Description: >
+    Capstone Project CloudFormation Container Deployment.
+    This template deploys: ECR, EKS Cluster and Node Group.
+
+Parameters:
+  EnvironmentName:
+    Description: An environment name that will be prefixed to resource names
+    Type: String
+
+Resources:
+    ECR:
+        Type: AWS::ECR::Repository
+        Properties:
+            RepositoryName: udacity-capstone-project
+            
+    EKSClusterRole:
+        Type: AWS::IAM::Role
+        Properties:
+          AssumeRolePolicyDocument:
+            Statement:
+              - Effect: Allow
+                Principal:
+                  Service:
+                    - eks.amazonaws.com
+                Action:
+                  - sts:AssumeRole
+          ManagedPolicyArns:
+            - arn:aws:iam::aws:policy/AmazonEKSClusterPolicy 
+            
+    NodeGroupRole:
+        Type: AWS::IAM::Role
+        Properties:
+          AssumeRolePolicyDocument:
+            Statement:
+              - Effect: Allow
+                Principal:
+                  Service:
+                    - ec2.amazonaws.com
+                Action:
+                  - sts:AssumeRole
+          ManagedPolicyArns:
+            - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+            - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+            - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+
+    EKSClusterSecurityGroup:
+        Type: 'AWS::EC2::SecurityGroup'
+        Properties:
+          GroupDescription: EKS Cluster Security Group
+          Tags:
+            - Key: Name
+              Value: !Sub '${EnvironmentName}/EKSClusterSecurityGroup'
+          VpcId: 
+            Fn::ImportValue:
+                !Sub "${EnvironmentName}-VPC"
+                
+    NodeGroupSG:
+        Type: 'AWS::EC2::SecurityGroup'
+        Properties:
+          GroupDescription: Communication between all nodes in the cluster
+          Tags:
+            - Key: Name
+              Value: !Sub '${EnvironmentName}/NodeGroupSG'
+          VpcId: 
+            Fn::ImportValue:
+                !Sub "${EnvironmentName}-VPC"
+            
+    
+    ClusterToNodeIngress:
+        Type: AWS::EC2::SecurityGroupIngress
+        Properties:
+          Description: Allow cluster to communicate with nodes
+          FromPort: 0
+          GroupId: !Ref NodeGroupSG
+          IpProtocol: '-1'
+          SourceSecurityGroupId: !GetAtt EKSClusterSecurityGroup.GroupId
+          ToPort: 65535
+            
+            
+    NodeToNodeIngress:
+        Type: AWS::EC2::SecurityGroupIngress
+        Properties:
+          Description: Allow nodes to communicate with each other (all ports)
+          FromPort: 0
+          GroupId: !Ref NodeGroupSG
+          IpProtocol: '-1'
+          SourceSecurityGroupId: !Ref NodeGroupSG
+          ToPort: 65535
+          
+          
+    NodeToClusterIngress:
+        Type: AWS::EC2::SecurityGroupIngress
+        Properties:
+          Description: Allow nodes to communicate with each other (all ports)
+          FromPort: 0
+          GroupId: !Ref EKSClusterSecurityGroup
+          IpProtocol: '-1'
+          SourceSecurityGroupId: !GetAtt NodeGroupSG.GroupId
+          ToPort: 65535      
+    
+    
+    EKSCluster:
+        Type: 'AWS::EKS::Cluster'
+        Properties:
+          Name: udacity-capstone-project
+          Version: '1.21'
+          RoleArn: !GetAtt EKSClusterRole.Arn
+          ResourcesVpcConfig:
+            SecurityGroupIds:
+                - !Ref EKSClusterSecurityGroup
+            SubnetIds:
+                - Fn::ImportValue:
+                    !Sub "${EnvironmentName}-PublicSubnet1"
+                - Fn::ImportValue:
+                    !Sub "${EnvironmentName}-PublicSubnet2"
+    
+    EKSNodeGroup:
+        Type: 'AWS::EKS::Nodegroup'
+        Properties:
+          ClusterName: !Ref EKSCluster
+          NodeRole: !Ref NodeGroupRole
+          ScalingConfig:
+            MinSize: 1
+            DesiredSize: 1
+            MaxSize: 3
+          Subnets:
+            - Fn::ImportValue:
+                !Sub "${EnvironmentName}-PublicSubnet1"
+            - Fn::ImportValue:
+                !Sub "${EnvironmentName}-PublicSubnet2"
+
