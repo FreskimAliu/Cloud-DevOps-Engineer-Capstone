@@ -125,5 +125,6 @@ Build a declarative pipeline using Jenkins file. These are stages that are inclu
 ## 🎉 Acknowledgements <a name = "acknowledgement"></a>
 
 - Udacity Team
-- Inspiration
-- References
+- Digital Ocean Community Tutorials
+- ![CloudBeesTV](https://www.youtube.com/watch?v=99DddJiH7lM&list=PLNsuWIxDC27t4yqg0Q7l4nUXoi70x-fGR&index=7)
+- ![Janitha Tennakoon](https://towardsdatascience.com/kubernetes-application-deployment-with-aws-eks-and-ecr-4600e11b2d3c)
