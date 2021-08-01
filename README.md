@@ -47,75 +47,84 @@ For this project I created a CI/CD pipeline for a basic containerized NodeJS app
 ![img-1](pipeline.png)
 
 
-### Project Requirements
+## Project Steps
 
-What things you need to install the software and how to install them.
+### Infrastructure
+Using Cloudformation templates that are located under infrastructure folder. You will create the following stacks:
+* Create Network infrastructure:
+    * VPC
+    * Two public subnets spread across two Availabilty Zones
+    * Internet Gateway, with a default route on the public subnets.
+* Create an AWS EC2 instance for Jenkins master server and another AWS EC2 instance for a Jenkins agent. 
+* Create containers infrastructure:
+    * ECR Registry
+    * EKS Cluster
+    * EKS Node Group
+    
 
-```
-Give examples
-```
+### Configuration
 
-### Installing
+* Jenkins is pre-installed in Jenkins master instance and in Jenkins agent instance are these dependencies:
+    *   Java Runtime Environment (JRE) & Java Development Kit (JDK)
+    *   NodeJS & npm
+    *   Hadolint
+    *   Docker
+    *   AWS CLI v2
+    *   Kubectl
+    *   jq
 
-A step by step series of examples that tell you how to get a development env running.
+* After installing the Jenkins server, install these plugins:
+    * Blue Ocean
+    * Pipeline: AWS Steps
+* Add credentials of Jenkins agent's SSH private keys, AWS, and GitHub token.
 
-Say what the step will be
 
-```
-Give the example
-```
+### Jenkins Pipeline
+Build a declarative pipeline using Jenkins file. These are stages that are included in the pipeline:
+* Lint Application and DockerFile using ESlint and Hadolint
+* Test Application using Mocha
+* Build Docker Image
+* Test Docker Image with CURL command
+* Push Image to ECR 
+* Deploy to EKS
+* Validate Deployment with CURL command
+* Check Rollout
 
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo.
-
-## 🔧 Running the tests <a name = "tests"></a>
-
-Explain how to run the automated tests for this system.
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## 🎈 Usage <a name="usage"></a>
-
-Add notes about how to use the system.
-
-## 🚀 Deployment <a name = "deployment"></a>
-
-Add additional notes about how to deploy this on a live system.
-
-## ⛏️ Built Using <a name = "built_using"></a>
-
-- [MongoDB](https://www.mongodb.com/) - Database
-- [Express](https://expressjs.com/) - Server Framework
-- [VueJs](https://vuejs.org/) - Web Framework
-- [NodeJs](https://nodejs.org/en/) - Server Environment
-
-## ✍️ Authors <a name = "authors"></a>
-
-- [@kylelobo](https://github.com/kylelobo) - Idea & Initial work
-
-See also the list of [contributors](https://github.com/kylelobo/The-Documentation-Compendium/contributors) who participated in this project.
+## Project structure
+    ├──  infrastructure                 
+    │   ├── containers
+    |   |   ├── containers.yml
+    |   |   ├── parameters.json
+    |   |   ├── create.sh
+    |   |   ├── update.sh
+    │   ├── jenkins
+    |   |   ├── instances.yml
+    |   |   ├── parameters.json
+    |   |   ├── create.sh
+    |   |   ├── update.sh
+    │   ├── network
+    |   |   ├── network.yml
+    |   |   ├── parameters.json
+    |   |   ├── create.sh
+    |   |   ├── update.sh
+    ├──  kubernetes           
+    │   ├── deployment.yml          
+    │   ├── service.yml 
+    ├──  images           
+    │   ├── pipeline.png          
+    │   ├── jenkins_pipeline.png
+    ├──  test           
+    │   ├── test.js   
+    ├──  .eslintrc.yml 
+    ├──  Dockerfile                
+    ├──  Jenkinsfile                 
+    ├──  server.js
+    ├──  package-lock.json
+    ├──  package.json
+    
 
 ## 🎉 Acknowledgements <a name = "acknowledgement"></a>
 
-- Hat tip to anyone whose code was used
+- Udacity Team
 - Inspiration
 - References
