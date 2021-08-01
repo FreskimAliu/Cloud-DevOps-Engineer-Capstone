@@ -10,7 +10,7 @@
 
     // listen to port 7000 by default
 app.listen(process.env.PORT || 8000, () => {
-  console.log("Server is running");
+  console.log("Server is running");s
 });
 
 module.exports = app;
