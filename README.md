@@ -131,4 +131,4 @@ Build a declarative pipeline using Jenkins file. These are stages that are inclu
 
 ## 🎉 Acknowledgements <a name = "acknowledgement"></a>
 
-- Udacity Team :heart:
+Udacity Team :heart:
