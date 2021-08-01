@@ -1,8 +1,8 @@
 FROM node:14
 
 # Create app directory
-WORKDIR /usr/src/app
-
+WORKDIR /usr/src/app.
+TEST LINTING
 
 COPY package*.json ./
 
@@ -14,5 +14,7 @@ RUN npm install
 COPY . .
 
 EXPOSE 8000
+
+ADDED THIS
 
 CMD [ "node", "server.js" ]
