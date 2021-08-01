@@ -1,6 +1,6 @@
 <p align="center">
   <a href="" rel="noopener">
- <img width=200px height=200px src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Udacity_logo.png" alt="Project logo"></a>
+ <img width=200px height=200px src="https://s3-us-west-1.amazonaws.com/udacity-content/rebrand/svg/logo.min.svg" alt="Project logo"></a>
 </p>
 
 <h3 align="center">Udacity Cloud DevOps Nanodegree Capstone</h3>
@@ -44,9 +44,10 @@ In this project I applied the skills and knowledge which were developed througho
 
 ## 🏁 Project <a name = "project"></a>
 For this project I created a CI/CD pipeline for a basic containerized NodeJS application. I pushed docker image to ECR and then deployed the container in EKS cluster. 
+![img-1](pipeline.png)
 
 
-### Prerequisites
+### Project Requirements
 
 What things you need to install the software and how to install them.
 
