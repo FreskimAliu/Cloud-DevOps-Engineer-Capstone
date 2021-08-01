@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: udacity-capstone-project
-
 spec:
   replicas: 1
   selector:
@@ -29,19 +28,5 @@ spec:
             limits:
               memory: "64Mi"
               cpu: "500m"
-
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: udacity-capstone-project
-
-spec:
-  selector:
-    app: udacity-capstone-project
-  ports:
-    - port: 80
-      targetPort: 8000
-  type: LoadBalancer
 
 

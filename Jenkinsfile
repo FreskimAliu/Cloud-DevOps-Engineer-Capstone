@@ -6,6 +6,7 @@ pipeline {
     DOCKER_IMAGE="udacity-capstone-project"
     TAG="latest"
     REPOSITORY_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${DOCKER_IMAGE}:${TAG}"
+    CLUSTER="udacity-capstone-project"
   }
   stages {
     stage('Lint Application') {
@@ -52,10 +53,11 @@ pipeline {
       steps {
         withAWS(credentials: 'aws_credentials', region: "${AWS_DEFAULT_REGION}") {
           
-          sh 'aws eks update-kubeconfig --name test-cluster'
-          sh 'kubectl config use-context arn:aws:eks:us-west-2:133860621760:cluster/test-cluster'
+          sh 'aws eks update-kubeconfig --name ${CLUSTER}'
+          sh 'kubectl config use-context arn:aws:eks:${AWS_DEFAULT_REGION}:${AWS_ACCOUNT_ID}:cluster/${CLUSTER}'
           sh 'kubectl get nodes'
-          sh 'kubectl apply -f deploy-k8s.yml'
+          sh 'kubectl apply -f kubernetes/deployment.yml'
+          sh 'kubectl apply -f kubernetes/service.yml'
           sh 'kubectl rollout restart deployments/udacity-capstone-project'
           sh 'kubectl get pod -o wide'
           sh 'kubectl get service/udacity-capstone-project'

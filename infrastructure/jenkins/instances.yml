@@ -155,6 +155,11 @@ Resources:
           Fn::Base64: |
             #! /usr/bin/bash
             
+            # Install Java
+            apt update -y
+            apt install default-jre -y
+            apt install default-jdk -y
+            
             # Install NodeJS and npm
             apt update -y
             apt install nodejs -y
