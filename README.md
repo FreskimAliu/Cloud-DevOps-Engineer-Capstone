@@ -121,10 +121,14 @@ Build a declarative pipeline using Jenkins file. These are stages that are inclu
     ├──  package-lock.json
     ├──  package.json
     
+## Useful Link <a name ="useful_links"></a>
+- ![Install Hadolint](https://stackoverflow.com/questions/62369711/how-to-install-hadolint-on-ubuntu)
+- ![How To Install Jenkins on Ubuntu 20.04](https://www.digitalocean.com/community/tutorials/how-to-install-jenkins-on-ubuntu-20-04)
+- ![How To Install and Use Docker on Ubuntu 20.04](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04)
+- ![How to Install Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
+- ![How to Create an Agent Node in Jenkins](https://www.youtube.com/watch?v=99DddJiH7lM&list=PLNsuWIxDC27t4yqg0Q7l4nUXoi70x-fGR&index=7)
+- ![Kubernetes Application Deployment with AWS EKS and ECR](https://towardsdatascience.com/kubernetes-application-deployment-with-aws-eks-and-ecr-4600e11b2d3c)
 
 ## 🎉 Acknowledgements <a name = "acknowledgement"></a>
 
-- Udacity Team
-- Digital Ocean Community Tutorials
-- ![CloudBeesTV](https://www.youtube.com/watch?v=99DddJiH7lM&list=PLNsuWIxDC27t4yqg0Q7l4nUXoi70x-fGR&index=7)
-- ![Janitha Tennakoon](https://towardsdatascience.com/kubernetes-application-deployment-with-aws-eks-and-ecr-4600e11b2d3c)
+- Udacity Team :heart:
