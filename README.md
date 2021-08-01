@@ -22,12 +22,8 @@
 
 - [About](#about)
 - [Project](#project)
-- [Deployment](#deployment)
-- [Usage](#usage)
-- [Built Using](#built_using)
-- [TODO](../TODO.md)
-- [Contributing](../CONTRIBUTING.md)
-- [Authors](#authors)
+- [Project Steps](#project_steps)
+- [Project Structure](#project_structure)
 - [Acknowledgments](#acknowledgement)
 
 ## 🧐 About <a name = "about"></a>
@@ -44,10 +40,10 @@ In this project I applied the skills and knowledge which were developed througho
 
 ## 🏁 Project <a name = "project"></a>
 For this project I created a CI/CD pipeline for a basic containerized NodeJS application. I pushed docker image to ECR and then deployed the container in EKS cluster. 
-![img-1](pipeline.png)
+![img-1](images/pipeline.png)
 
 
-## Project Steps
+## Project Steps <a name ="project_steps"></a>
 
 ### Infrastructure
 Using Cloudformation templates that are located under infrastructure folder. You will create the following stacks:
@@ -90,7 +86,10 @@ Build a declarative pipeline using Jenkins file. These are stages that are inclu
 * Validate Deployment with CURL command
 * Check Rollout
 
-## Project structure
+![img-2](images/jenkins_pipeline.png)
+
+
+## Project structure <a name ="project_structure"></a>
     ├──  infrastructure                 
     │   ├── containers
     |   |   ├── containers.yml
