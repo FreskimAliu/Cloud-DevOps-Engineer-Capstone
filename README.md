@@ -1,6 +1,6 @@
 <p align="center">
   <a href="" rel="noopener">
- <img width=200px height=200px src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fbrandslogos.com%2Fu%2Fudacity-logo-vector%2F&psig=AOvVaw0YgB3C3oc0JFSq1V5jLhhE&ust=1627908912606000&source=images&cd=vfe&ved=0CAoQjRxqFwoTCPDrm7bvj_ICFQAAAAAdAAAAABAN" alt="Project logo"></a>
+ <img width=200px height=200px src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Udacity_logo.png" alt="Project logo"></a>
 </p>
 
 <h3 align="center">Udacity Cloud DevOps Nanodegree Capstone</h3>
@@ -34,12 +34,12 @@
 
 In this project I applied the skills and knowledge which were developed throughout the Cloud DevOps Nanodegree program. These include:
 
-    Working in AWS
-    Using Jenkins or Circle CI to implement Continuous Integration and Continuous Deployment
-    Building pipelines
-    Working with Ansible and CloudFormation to deploy clusters
-    Building Kubernetes clusters
-    Building Docker containers in pipelines
+* Working in AWS
+* Using Jenkins or Circle CI to implement Continuous Integration and Continuous Deployment
+* Building pipelines
+* Working with Ansible and CloudFormation to deploy clusters
+* Building Kubernetes clusters
+* Building Docker containers in pipelines
 
 
 ## 🏁 Project <a name = "project"></a>
