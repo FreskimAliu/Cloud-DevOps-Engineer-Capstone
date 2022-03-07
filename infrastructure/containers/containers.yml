@@ -12,6 +12,8 @@ Resources:
         Type: AWS::ECR::Repository
         Properties:
             RepositoryName: udacity-capstone-project
+            ImageScanningConfiguration: true
+            ImageTagMutability: IMMUTABLE
             
     EKSClusterRole:
         Type: AWS::IAM::Role
