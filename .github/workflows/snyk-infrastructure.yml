@@ -6,12 +6,16 @@ on:
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ main ]
-  schedule:
-    - cron: '32 18 * * 0'
 
 jobs:
   snyk:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        files:
+          - infrastructure/containers/containers.yml
+          - infrastructure/jenkins/instances.yml
+          - infrastructure/network/network.yml
     steps:
       - uses: actions/checkout@v2
       - name: Run Snyk to check configuration files for security issues
@@ -28,8 +32,4 @@ jobs:
           # Add the path to the configuration file that you would like to test.
           # For example `deployment.yaml` for a Kubernetes deployment manifest
           # or `main.tf` for a Terraform configuration file
-          file: your-file-to-test.yaml
-      - name: Upload result to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v1
-        with:
-          sarif_file: snyk.sarif
+          file: ${{ matrix.files }}
